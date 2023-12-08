@@ -20,15 +20,14 @@ services:
     image: ghcr.io/ollama-webui/ollama-webui:main
     container_name: ollama
     restart: always
-    ports:
-      - "3000:8080"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     labels:
-      - traefik.http.routers.ollama.rule=Host(`ollama.ujstor.com`)
-      - traefik.http.routers.ollama.tls=true
-      - traefik.http.routers.ollama.tls.certresolver=lets-encrypt
-      - traefik.port=3000
+      - "traefik.enable=true"
+      - "traefik.http.routers.ollama.rule=Host(`ollama.ujstor.com`)"
+      - "traefik.http.routers.ollama.entrypoints=websecure"
+      - "traefik.http.routers.ollama.tls=true"
+      - "traefik.http.routers.ollama.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.ollama.service=ollama@docker"
+      - "traefik.http.services.ollama.loadbalancer.server.port=8080"
     networks:
       - internal
       - web
