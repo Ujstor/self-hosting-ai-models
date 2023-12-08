@@ -15,6 +15,30 @@
   rule = "Host(`ollama.ujstor.com`)"
   entrypoints = ["websecure"]
   middlewares = ["simpleAuth"]
-  service = "ollama@docker"
+  service = "ollama"
   [http.routers.ollama.tls]
+    certResolver = "lets-encrypt"
+
+[http.services.diffusion.loadBalancer]
+  [[http.services.diffusion.loadBalancer.servers]]
+    url = "http://host.docker.internal:7860"
+
+[http.routers.diffusion]
+  rule = "Host(`diffusion.ujstor.com`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "diffusion"
+  [http.routers.diffusion.tls]
+    certResolver = "lets-encrypt"
+
+[http.services.fooocus.loadBalancer]
+  [[http.services.fooocus.loadBalancer.servers]]
+    url = "http://host.docker.internal:7865"
+
+[http.routers.fooocus]
+  rule = "Host(`fooocus.ujstor.com`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "fooocus"
+  [http.routers.fooocus.tls]
     certResolver = "lets-encrypt"
