@@ -11,6 +11,10 @@
   [http.routers.api.tls]
     certResolver = "lets-encrypt"
 
+[http.services.ollama.loadBalancer]
+  [[http.services.ollama.loadBalancer.servers]]
+    url = "http://host.docker.internal:3000"
+
 [http.routers.ollama]
   rule = "Host(`ollama.ujstor.com`)"
   entrypoints = ["websecure"]
