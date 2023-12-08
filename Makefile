@@ -3,7 +3,6 @@
 run:
 	@echo Starting traefik reverse proxy & Ollama Web-UI
 	@docker compose up -d
-	@echo Run 
 
 down:
 	@echo Shutdown everything
