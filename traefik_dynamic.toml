@@ -1,0 +1,20 @@
+[http.middlewares.simpleAuth.basicAuth]
+  users = [
+    "ujstor:$apr1$A7LbmVA7$OLsoACiJSHMOirdQeiClE."
+  ]
+
+[http.routers.api]
+  rule = "Host(`monitor.ujstor.com`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "api@internal"
+  [http.routers.api.tls]
+    certResolver = "lets-encrypt"
+
+[http.routers.ollama]
+  rule = "Host(`ollama.ujstor.com`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "ollama@docker"
+  [http.routers.ollama.tls]
+    certResolver = "lets-encrypt"

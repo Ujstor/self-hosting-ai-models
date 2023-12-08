@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./traefik_dynamic.toml:/traefik_dynamic.toml
+      - ./acme.json:/acme.json
+    networks:
+      - web
+
+  ollama:
+    image: ghcr.io/ollama-webui/ollama-webui:main
+    container_name: ollama
+    restart: always
+    ports:
+      - "3000:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    labels:
+      - traefik.http.routers.ollama.rule=Host(`ollama.ujstor.com`)
+      - traefik.http.routers.ollama.tls=true
+      - traefik.http.routers.ollama.tls.certresolver=lets-encrypt
+      - traefik.port=3000
+    networks:
+      - internal
+      - web
+    depends_on:
+      - traefik
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
