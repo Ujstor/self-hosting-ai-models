@@ -48,9 +48,9 @@ install-diffusion:
 	    echo "conda.sh not found, ensure Conda is installed and re-run"; \
 	    exit 1; \
 	fi; \
-	cd Fooocus && \
-	/bin/bash -c "source $$CONDA_SH_PATH && yes | conda create -n diffusion python==3.10 && conda init bash && conda activate diffusion && pip install -r /home/models/stable-diffusion-webui/requirements_versions.txt && pip install git+https://github.com/openai/CLIP.git && cd .."
-
+	cd stable-diffusion-webui && \
+	/bin/bash -c "source $$CONDA_SH_PATH && yes | conda env create -f environment-wsl2.yaml && conda init bash && conda activate automatic && pip install git+https://github.com/openai/CLIP.git gdown
+ && cd .."
 
 run-diffusion:
 	@/bin/bash -c "source /anaconda/etc/profile.d/conda.sh && conda activate diffusion && python3 /home/models/stable-diffusion-webui/webui.py"
@@ -66,3 +66,4 @@ install-all-models: install-fooocus install-ollama install-diffusion
 
 #pip install git+https://github.com/openai/CLIP.git
 #pip install --upgrade --no-cache-dir gdown
+#pip install -r /home/models/stable-diffusion-webui/requirements_versions.txt

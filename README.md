@@ -43,6 +43,7 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 ### 5. SSH Tunneling for External Communication
 - SSH tunneling is utilized to securely forward requests from your local machine to the container running the AI models.
 - To establish an SSH tunnel, open a terminal and execute: `ssh -L 7860:127.0.0.1:7860 -L 7865:127.0.0.1:7865 -L 11434:127.0.0.1:11434 -p 2222 models@localhost`. This command will forward the specified ports from your local machine to the corresponding ports on the container.
+- password:`root`
 - After running this command, you will gain access to the makefile commands for managing the AI models.
 - It's important to maintain the stability of your SSH connection. If the SSH session is disrupted, the tunnel will close, leading to the inaccessibility of the forwarded ports. Therefore, keep the terminal session active throughout the duration of use.
 
