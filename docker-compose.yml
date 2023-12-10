@@ -26,6 +26,32 @@ services:
       - web
     depends_on:
       - traefik
+  
+  vps:
+    build: .
+    privileged: true
+    ports:
+      - "2222:22"
+      - "2375:2375"
+    volumes:
+      - ./data:/root
+      - conda-envs:/anaconda/envs
+      - ollama:/usr/local/bin
+      - /var/lib/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - web
+    deploy:
+          resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: 1
+                  capabilities: [gpu]
+
+volumes:
+  conda-envs:
+  ollama:
 
 networks:
   web:
