@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     lshw \
     sudo \
+    pip \
     make
 
 # Install Docker
@@ -41,6 +42,7 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh &
     bash Anaconda3-2023.09-0-Linux-x86_64.sh -b -p /anaconda && \
     rm Anaconda3-2023.09-0-Linux-x86_64.sh
 
+ENV PATH="/home/models/.local/bin:/anaconda/bin:${PATH}"
 ENV PATH="/anaconda/bin:${PATH}"
 RUN echo "source /anaconda/etc/profile.d/conda.sh" >> /etc/profile
 
