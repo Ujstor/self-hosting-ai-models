@@ -2,6 +2,8 @@ FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
+WORKDIR /home/models
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     openssh-server \
@@ -17,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libgl1 \
     libglib2.0-0 \
     lshw \
+    sudo \
     make
 
 # Install Docker
@@ -40,6 +43,11 @@ RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh &
 
 ENV PATH="/anaconda/bin:${PATH}"
 RUN echo "source /anaconda/etc/profile.d/conda.sh" >> /etc/profile
+
+RUN useradd -m -s /bin/bash models && echo "models:root" | chpasswd && adduser models sudo
+RUN echo 'models ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+COPY ./Makefile /home/models/
 
 EXPOSE 22 2375 7865
 

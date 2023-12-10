@@ -34,13 +34,16 @@ services:
       - "2222:22"
       - "2375:2375"
     volumes:
-      - ./data:/root
+      - ./Makefile:/home/models/Makefile
+      - ./data:/home/models
       - conda-envs:/anaconda/envs
       - ollama:/usr/local/bin
       - /var/lib/docker
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - web
+    depends_on:
+      - traefik
     deploy:
           resources:
             reservations:
