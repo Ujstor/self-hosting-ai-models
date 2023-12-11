@@ -82,6 +82,8 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 - `make run-diffusion`: Activates the Diffusion environment and starts the web UI.
 - adding `-q` to end of `make run-<model>-q` comand, runns model as a background process.
 
+Be patient, it takes a while to download models and install packages; 50GB of data is downloaded.
+
 # Sample images
 ![docker](https://i.imgur.com/ciKM3KK.png)
 
@@ -90,9 +92,8 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 ![ollama-ui](https://i.imgur.com/BpPtiRp.png)
 
 <p float="left">
-  <img src="https://i.imgur.com/A457ilH.jpeg" width="300" style="margin-right: 10px;"/>
-  <img src="https://i.imgur.com/qMsgXUQ.jpeg" width="300" style="margin-right: 10px;"/>
-  <img src="https://i.imgur.com/71uCVtP.jpeg" width="300" />
+  <img src="https://i.imgur.com/A457ilH.jpeg" width="200" style="margin-right: 20px;"/>
+  <img src="https://i.imgur.com/qMsgXUQ.jpeg" width="200" style="margin-right: 20px;"/>
+  <img src="https://i.imgur.com/71uCVtP.jpeg" width="200" style="margin-right: 20px;"/>
+  <img src="https://i.imgur.com/xnthkKX.jpeg" width="200" />
 </p>
-
-

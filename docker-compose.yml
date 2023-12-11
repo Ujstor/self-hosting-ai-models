@@ -33,7 +33,7 @@ services:
       - "2222:22"
     volumes:
       - ./Makefile:/home/models/Makefile
-      - ./data/ollama:/home/models
+      - ./data-ollama:/home/models
       - ollama:/usr/local/bin
     networks:
       - web
@@ -55,7 +55,7 @@ services:
       - "2223:22"
     volumes:
       - ./Makefile:/home/models/Makefile
-      - ./data/fooocus:/home/models
+      - ./data-fooocus:/home/models
     networks:
       - web
     depends_on:
@@ -76,7 +76,7 @@ services:
       - "2224:22"
     volumes:
       - ./Makefile:/home/models/Makefile
-      - ./data/diffusion:/home/models
+      - ./data-diffusion:/home/models
     networks:
       - web
     depends_on:

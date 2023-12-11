@@ -51,8 +51,10 @@ install-diffusion:
 	@sudo -u models /bin/bash /home/models/webui.sh
 
 run-diffusion:
-	@source /home/models/stable-diffusion-webui/venv/bin/activate
-	@python3 /home/models/stable-diffusion-webui/webui.py
+	@. /home/models/stable-diffusion-webui/venv/bin/activate && \
+	python3 /home/models/stable-diffusion-webui/webui.py
+
+#pip install --force-reinstall --no-deps --pre xformers &&
 
 run-diffusion-q: #runnung model as background processes
 	@nohup make run-diffusion > /tmp/diffusion_run_output.log 2>&1 &

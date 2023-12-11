@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -21,7 +21,11 @@ RUN apt-get update && apt-get install -y \
     lshw \
     sudo \
     pip \
-    make
+    make \
+    libtcmalloc-minimal4 \
+    apt-utils \
+    htop \
+    gdu
 
 # Install Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
@@ -55,5 +59,4 @@ COPY ./Makefile /home/models/fooocus
 
 EXPOSE 22 2375
 
-# Start SSH service
-CMD service ssh start && tail -f /dev/null
+CMD ["sh", "-c", "service ssh start && tail -f /dev/null"]
