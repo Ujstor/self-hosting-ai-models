@@ -4,7 +4,6 @@ services:
   traefik:
     image: traefik:latest
     container_name: traefik
-    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -16,44 +15,81 @@ services:
     networks:
       - web
 
+  #ssh -L 11434:127.0.0.1:11434 -p 2222 models@localhost
   ollama:
     image: ghcr.io/ollama-webui/ollama-webui:main
     container_name: ollama
-    restart: always
     ports:
       - 3000:8080
     networks:
       - web
     depends_on:
       - traefik
-  
-  vps:
+
+  vps-ollama:
     build: .
     privileged: true
     ports:
       - "2222:22"
-      - "2375:2375"
     volumes:
       - ./Makefile:/home/models/Makefile
-      - ./data:/home/models
-      - conda-envs:/anaconda/envs
+      - ./data/ollama:/home/models
       - ollama:/usr/local/bin
-      - /var/lib/docker
-      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - web
     depends_on:
       - traefik
     deploy:
-          resources:
-            reservations:
-              devices:
-                - driver: nvidia
-                  count: 1
-                  capabilities: [gpu]
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  #ssh -L 7865:127.0.0.1:7865 -p 2223 models@localhost
+  vps-foocus:
+    build: .
+    privileged: true
+    ports:
+      - "2223:22"
+    volumes:
+      - ./Makefile:/home/models/Makefile
+      - ./data/fooocus:/home/models
+    networks:
+      - web
+    depends_on:
+      - traefik
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  #ssh -L 7860:127.0.0.1:7860 -p 2224 models@localhost
+  vps-diffusion:
+    build: .
+    privileged: true
+    ports:
+      - "2224:22"
+    volumes:
+      - ./Makefile:/home/models/Makefile
+      - ./data/diffusion:/home/models
+    networks:
+      - web
+    depends_on:
+      - traefik
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
 volumes:
-  conda-envs:
   ollama:
 
 networks:

@@ -49,9 +49,11 @@ RUN echo "source /anaconda/etc/profile.d/conda.sh" >> /etc/profile
 RUN useradd -m -s /bin/bash models && echo "models:root" | chpasswd && adduser models sudo
 RUN echo 'models ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-COPY ./Makefile /home/models/
+COPY ./Makefile /home/models/ollama
+COPY ./Makefile /home/models/diffusion
+COPY ./Makefile /home/models/fooocus
 
-EXPOSE 22 2375 7865
+EXPOSE 22 2375
 
 # Start SSH service
 CMD service ssh start && tail -f /dev/null

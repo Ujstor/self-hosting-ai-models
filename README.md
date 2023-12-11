@@ -3,9 +3,10 @@
 Self-host your AI models like Ollama, Stable Diffusion and Foocus using Traefik on your home network. This method offers cost-effective and efficient management of AI services, bypassing expensive cloud solutions. If you dont alredy runn models on your maschine, this repo  include downloading, running, and managing these models, including details on SSH tunneling, local and web access configurations.
 
 ## Prerequisites
-- Registered domain name.
-- Home network with internet.
-- PC or server with Docker and Docker Compose.
+- Registered domain name
+- PC or server with Docker and Docker Compose
+- Nvidia GPU
+- You should have at least 8 GB of RAM to run the 3B models, 16 GB to run the 7B models, and 32 GB to run the 13B models.
 
 ## Traefik Overview
 Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microservices. It routes web traffic to the correct Docker container, enhancing resource utilization and security.
@@ -42,23 +43,28 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 
 ### 5. SSH Tunneling for External Communication
 - SSH tunneling is utilized to securely forward requests from your local machine to the container running the AI models.
-- To establish an SSH tunnel, open a terminal and execute: `ssh -L 7860:127.0.0.1:7860 -L 7865:127.0.0.1:7865 -L 11434:127.0.0.1:11434 -p 2222 models@localhost`. This command will forward the specified ports from your local machine to the corresponding ports on the container.
+- To establish an SSH tunnel, open a terminal and execute:
+   - Ollama: `ssh -L 11434:127.0.0.1:11434 -p 2222 models@localhost`
+   - Fooocus: `ssh -L 7865:127.0.0.1:7865 -p 2223 models@localhost`
+   - Diffusion: `ssh -L 7860:127.0.0.1:7860 -p 2224 models@localhost`
+   
+  This command will forward the specified ports from your local machine to the corresponding ports on the container.
 - password:`root`
 - After running this command, you will gain access to the makefile commands for managing the AI models.
-- It's important to maintain the stability of your SSH connection. If the SSH session is disrupted, the tunnel will close, leading to the inaccessibility of the forwarded ports. Therefore, keep the terminal session active throughout the duration of use.
+- It's important to maintain the stability of your SSH connection. If the SSH session is disrupted, the tunnel will close, leading to the inaccessibility of the forwarded ports. Therefore, keep the terminals session active throughout the duration of use.
 
 ### 6. Local and Web Access Configurations with Traefik
 - The `toml` configuration files are essential as they specify the ports and establish routing rules for each AI model. These configurations ensure secure and efficient web access to each model.
 - The `http.middlewares` for basic authentication across all services enhances security. Simultaneously, `http.routers` and `http.services` define the access paths and protocols for each model, providing secure framework for web access.
 - Local access to the AI models is facilitated through SSH tunneling. This method creates a secure pathway from the host machine to the containers managed by Traefik, ensuring safe and direct local access.
 
-#### Traefik Configuration for Local Access:
+#### Local Access:
 1. **Ollama Service:**
-   - Local URL: `http://host.docker.internal:3000`
+   - Local URL: http://localhost:3000 
 2. **Diffusion Service:**
-   - Local URL: `http://host.docker.internal:7860`
+   - Local URL: http://localhost:7860
 3. **Fooocus Service:**
-   - Local URL: `http://host.docker.internal:7865`
+   - Local URL: http://localhost:7865
 
 ## Makefile Commands
 
@@ -66,7 +72,7 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 - `make install-fooocus`: Clones the Fooocus repository and sets up its environment.
 - `make install-ollama`: Runs the Ollama installation script.
 - `make install-diffusion`: Clones the Stable Diffusion WebUI repository and prepares its environment.
-- `make install-all-models`: Installs all models.
+
 
 ### Running Models
 - `make run`: Starts Traefik reverse proxy & Ollama Web-UI using Docker.
@@ -74,4 +80,19 @@ Traefik, an HTTP reverse proxy and load balancer, simplifies deploying microserv
 - `make run-fooocus`: Activates the Fooocus environment and launches it.
 - `make run-ollama`: Runs the Ollama service.
 - `make run-diffusion`: Activates the Diffusion environment and starts the web UI.
-- `make run-all-models`: Runs all models as background processes.
+- adding `-q` to end of `make run-<model>-q` comand, runns model as a background process.
+
+# Sample images
+![docker](https://i.imgur.com/ciKM3KK.png)
+
+![terminal](https://i.imgur.com/f3ZTlyc.png)
+
+![ollama-ui](https://i.imgur.com/BpPtiRp.png)
+
+<p float="left">
+  <img src="https://i.imgur.com/A457ilH.jpeg" width="300" style="margin-right: 10px;"/>
+  <img src="https://i.imgur.com/qMsgXUQ.jpeg" width="300" style="margin-right: 10px;"/>
+  <img src="https://i.imgur.com/71uCVtP.jpeg" width="300" />
+</p>
+
+
