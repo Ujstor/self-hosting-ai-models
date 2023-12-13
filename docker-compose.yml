@@ -32,8 +32,7 @@ services:
     ports:
       - "2222:22"
     volumes:
-      - ./Makefile:/home/models/Makefile
-      - ./data-ollama:/home/models
+      - data-ollama:/home/models
       - ollama:/usr/local/bin
     networks:
       - web
@@ -48,14 +47,13 @@ services:
               capabilities: [gpu]
 
   #ssh -L 7865:127.0.0.1:7865 -p 2223 models@localhost
-  vps-foocus:
+  vps-fooocus:
     build: .
     privileged: true
     ports:
       - "2223:22"
     volumes:
-      - ./Makefile:/home/models/Makefile
-      - ./data-fooocus:/home/models
+      - data-fooocus:/home/models
     networks:
       - web
     depends_on:
@@ -75,8 +73,7 @@ services:
     ports:
       - "2224:22"
     volumes:
-      - ./Makefile:/home/models/Makefile
-      - ./data-diffusion:/home/models
+      - data-diffusion:/home/models
     networks:
       - web
     depends_on:
@@ -91,6 +88,9 @@ services:
 
 volumes:
   ollama:
+  data-ollama:
+  data-diffusion:
+  data-fooocus:
 
 networks:
   web:

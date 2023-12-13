@@ -53,9 +53,10 @@ RUN echo "source /anaconda/etc/profile.d/conda.sh" >> /etc/profile
 RUN useradd -m -s /bin/bash models && echo "models:root" | chpasswd && adduser models sudo
 RUN echo 'models ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-COPY ./Makefile /home/models/ollama
-COPY ./Makefile /home/models/diffusion
-COPY ./Makefile /home/models/fooocus
+COPY Makefile .
+
+RUN chown -R models:models /home/models
+RUN chmod +x Makefile
 
 EXPOSE 22 2375
 
