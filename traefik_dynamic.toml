@@ -37,7 +37,7 @@
 
 [http.services.fooocus.loadBalancer]
   [[http.services.fooocus.loadBalancer.servers]]
-    url = "http://192.168.2.115:7866"
+    url = "http://192.168.2.115:7866" #use host ip
 
 [http.routers.fooocus]
   rule = "Host(`fooocus.ujstor.com`)"
